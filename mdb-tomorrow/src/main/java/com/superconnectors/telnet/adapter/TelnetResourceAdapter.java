@@ -15,8 +15,9 @@
  */
 package com.superconnectors.telnet.adapter;
 
-import com.superconnectors.telnet.api.TelnetListener;
-import com.superconnectors.telnet.impl.TelnetServer;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.resource.ResourceException;
 import javax.resource.spi.ActivationSpec;
@@ -25,9 +26,9 @@ import javax.resource.spi.ResourceAdapterInternalException;
 import javax.resource.spi.endpoint.MessageEndpoint;
 import javax.resource.spi.endpoint.MessageEndpointFactory;
 import javax.transaction.xa.XAResource;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+
+import com.superconnectors.telnet.api.TelnetListener;
+import com.superconnectors.telnet.impl.TelnetServer;
 
 /**
  * @version $Revision$ $Date$
@@ -91,6 +92,10 @@ public class TelnetResourceAdapter implements javax.resource.spi.ResourceAdapter
 
     public XAResource[] getXAResources(ActivationSpec[] activationSpecs) throws ResourceException {
         return new XAResource[0];
+    }
+
+    public boolean hasActiveConnections() {
+        return !activated.isEmpty();
     }
 
 }

@@ -42,12 +42,13 @@ public class Runner {
 
         final EnterpriseArchive rar = ShrinkWrap.create(EnterpriseArchive.class, "test.rar");
         rar.addAsModule(rarLib);
-        rar.addAsManifestResource(new File("src/main/resources/ra.xml"), "ra.xml");
+        rar.addAsManifestResource(new File("src/main/resources/META-INF/ra.xml"), "META-INF/ra.xml");
         System.out.println(rar.toString(true));
         System.out.println();
 
         final JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar");
         jar.addPackages(true, "org.developer");
+//        jar.addAsServiceProviderAndClasses(javax.enterprise.inject.spi.Extension.class, TelnetExtension.class);
         System.out.println(jar.toString(true));
         System.out.println();
 

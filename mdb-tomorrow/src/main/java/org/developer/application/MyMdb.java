@@ -15,19 +15,24 @@
  */
 package org.developer.application;
 
+import java.util.Map;
+import java.util.Properties;
+import java.util.regex.Pattern;
+
+import javax.ejb.MessageDriven;
+
+import com.google.inject.Inject;
 import com.superconnectors.telnet.api.Command;
 import com.superconnectors.telnet.api.Option;
 import com.superconnectors.telnet.api.Prompt;
 import com.superconnectors.telnet.api.TelnetListener;
 
-import javax.ejb.MessageDriven;
-import java.util.Map;
-import java.util.Properties;
-import java.util.regex.Pattern;
-
 @MessageDriven
 @Prompt("pronto>")
 public class MyMdb implements TelnetListener {
+
+    @Inject
+    TelnetUser user;
 
     private final Properties properties = new Properties();
 
@@ -61,6 +66,16 @@ public class MyMdb implements TelnetListener {
                 sb.append(key).append(" = ").append(entry.getValue()).append("\n");
             }
         }
+        return sb.toString();
+    }
+
+    @Command("user")
+    public String doUser(@Option("name") String name) {
+        user.setName(name);
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append("set user name to ").append(user.getName());
+        sb.append("\n");
         return sb.toString();
     }
 }
